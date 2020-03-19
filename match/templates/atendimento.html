@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<p>Informe aqui seus horários disponiveis e vamos tentar indicar um voluntário disponível.</p>
+
+<form method="post">
+    {{ atendimento_form.management_form }}
+
+    {% csrf_token %}
+    {% for form in atendimento_form %}
+        {{ form.as_p }}
+    {% endfor %}
+
+    <button type="submit">Enviar</button>
+</form>
+{% endblock %}
