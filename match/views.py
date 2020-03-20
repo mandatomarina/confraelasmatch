@@ -11,6 +11,10 @@ from .models import Profile, PsiProfile
 def home(request):
     return render(request, 'home.html')
 
+def page(request, page_name):
+    return render(request, 'pages/'+page_name+'.html')
+
+
 @transaction.atomic
 def signup(request):
     if request.user.is_authenticated:
