@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>AtendeSUS</title>
+    <title>Rede de Apoio Psicológico</title>
   
     <style>
         /* Sticky footer styles
@@ -31,10 +31,10 @@
 
   <header>
       <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand" href="/">AtendeSUS</a>
+          <a class="navbar-brand" href="/">Rede de Apoio Psicológico</a>
           
           {% if user.is_authenticated %}
-            <span class="nav-text">Olá, <a href="#">{{user.profile.nome}}</a> (<a href="/logout">sair</a>)</span>
+            <span class="nav-text">Olá, <a href="#">{{user.profile.nome}}</a> (<a href="/match/logout">sair</a>)</span>
           {% else %}
             <a class="nav-link" href="/match/signup">Login</a>
           {% endif %}
