@@ -6,9 +6,8 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    {{ profile_form.as_p }}
-    {{ user_form.as_p }}
+    {{ form.as_p }}
     
-    <button type="submit">Enviar</button>
+    <button type="submit">Login</button>
 </form>
 {% endblock %}
