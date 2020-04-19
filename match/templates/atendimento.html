@@ -5,15 +5,12 @@
 
 {% block content %}
 
-<p>Informe aqui seus horários disponiveis e vamos tentar indicar um voluntário disponível.</p>
+<p>Antes de começar precisamos que você preencha alguns dados.</p>
 
 <form method="post">
-    {{ atendimento_form.management_form }}
-
+    
     {% csrf_token %}
-    {% for form in atendimento_form %}
-        {{ form.as_p }}
-    {% endfor %}
+        {{ atendimento_form.as_p }}
 
     <button type="submit">Enviar</button>
 </form>

@@ -5,11 +5,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-ROLE_CHOICES = (
-    ('PACIENTE', 'Paciente'),
-    ('PSICOLOGO', 'Psicologo'),
-)
-
 DAY_CHOICES = (
     (1, 'Domingo'),
     (2, 'Segunda'),
@@ -31,13 +26,19 @@ class Horario(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    role = models.CharField(max_length=16, choices=ROLE_CHOICES, default='PACIENTE')
     nome = models.CharField(max_length=200)
     phone = PhoneNumberField(null=False, blank=False, unique=True)
     email = models.CharField(max_length=200, unique=True, blank=True, null=True, validators=[validate_email])
+    horario = models.ManyToManyField(Horario, related_name='horario_profile', blank=True)
+    registro = models.CharField(max_length=20, unique=True, blank=True, null=True)
+    disponivel = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nome
+
+class Atendimento(models.Model):
+    paciente = models.CharField(max_length=200)
+    autorizacao = models.BooleanField(default=False)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -46,21 +47,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()  
-    
-class PsiProfile(models.Model):
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE, primary_key=True)
-    horario = models.ManyToManyField(Horario, related_name='horario_psiprofile', blank=True)
-    registro = models.CharField(max_length=20, unique=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.user.nome
-    
-
-class Atendimento(models.Model):
-    paciente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='paciente_atendimento')
-    psicologo = models.ForeignKey(User, on_delete=models.CASCADE, related_name='psicologo_atendimento')
-    horario = models.ManyToManyField(Horario, related_name='horario_paciente', blank=True)
-    
-    def __str__(self):
-        return "{} > {}".format(self.medico.nome, self.paciente.nome)
+    instance.profile.save()

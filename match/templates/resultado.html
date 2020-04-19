@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for m in data %}
         
-        <h2>Psicologo encontrado!</h2>
-        <p><b>Nome:</b>{{m.nome}}</p>
-        <p><b>Telefone:</b>{{m.phone}}</p>
-        <p><i>Entre em contato e agende o seu atendimento.</i></p>
-        
-    {% endfor %}
+    <h2>Psicologo encontrado!</h2>
+    <p><b>Nome:</b>{{match.nome}}</p>
+    <p><b>Telefone:</b>{{match.phone}}</p>
+    
+    <p><i>Estamos entrando em contato com ele... aguarde!</i></p>
 {% endblock %}
