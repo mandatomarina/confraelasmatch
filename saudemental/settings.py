@@ -59,7 +59,7 @@ ROOT_URLCONF = 'saudemental.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,6 +71,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'saudemental.wsgi.application'
 
@@ -113,6 +115,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
+
+LANGUAGES = (
+    ('pt-br', 'Portuguese'),
+)
+
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
@@ -122,6 +129,10 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 
 # Static files (CSS, JavaScript, Images)
@@ -136,3 +147,18 @@ SITE_ID = 1
 # All Auth
 
 ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_AUTHENTICATION_METHOD="username_email"
+ACCOUNT_SIGNUP_FORM_CLASS = "apoio.forms.ApoioSignupForm"
+ACCOUNT_USERNAME_REQUIRED = False
+
+
+
+# Email
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #remover em produção
+EMAIL_HOST = 'email-ssl.com.br'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'pedro@marinahelou.com.br'
+EMAIL_HOST_PASSWORD = 'M4ndatomarina!'

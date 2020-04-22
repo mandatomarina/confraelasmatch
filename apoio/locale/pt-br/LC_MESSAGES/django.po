@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-21 07:44-0300\n"
+"PO-Revision-Date: 2020-04-21 07:53-0300\n"
+"Last-Translator: Pedro Markun <pedro@markun.com.br>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.0.6\n"
+
+#: apoio/admin.py:14
+msgid "Rede de Apoio aos Psicologos"
+msgstr "Rede de Apoio aos Psicologos"
+
+#: apoio/admin.py:53
+msgid "Participants"
+msgstr "Participantes"
+
+#: apoio/admin.py:61
+msgid "Join"
+msgstr "Entrar"
+
+#: apoio/admin.py:67
+msgid "Leave"
+msgstr "Sair"
+
+#: apoio/admin.py:70
+msgid "Actions"
+msgstr "Ações"
+
+#: apoio/admin.py:91
+msgid "You have left "
+msgstr "Você saiu de "
+
+#: apoio/models.py:27
+msgid "Event"
+msgstr "Reunião"
+
+#: apoio/models.py:28
+msgid "Events"
+msgstr "Reuniões"
+
+#: apoio/models.py:30
+msgid "Weekday"
+msgstr "Dia da semana"
+
+#: apoio/models.py:31
+msgid "Start"
+msgstr "Inicio"
+
+#: apoio/models.py:32
+msgid "End"
+msgstr "Fim"
+
+#: apoio/models.py:33
+msgid "Owner"
+msgstr "Coordenador(a)"
+
+#: apoio/models.py:34
+msgid "Max Participants"
+msgstr "Máximo de Participantes"
+
+#: apoio/models.py:35
+msgid "Kind"
+msgstr "Tipo"

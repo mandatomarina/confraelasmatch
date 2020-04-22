@@ -8,12 +8,6 @@ from .forms import ProfileForm, AtendimentoForm
 from .models import Profile, Horario
 
 
-def home(request):
-    return render(request, 'home.html')
-
-def page(request, page_name):
-    return render(request, 'pages/'+page_name+'.html')
-   
 def atendimento(request, edit=False):
     
     if request.method == 'POST':

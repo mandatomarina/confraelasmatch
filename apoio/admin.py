@@ -6,13 +6,24 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.utils.translation import ugettext_lazy as _
+from django.core.mail import send_mail
+from django import forms
 
 
+DEFAULT_SEND_MAIL = "pedro@markun.com.br"
+TEMPLATE_MESSAGE = """Olá {}, você esta inscrito em {}."""
 
 class MyAdminSite(admin.AdminSite):
-    site_header = 'Rede de Apoio aos Psicologos'
+    site_header = _('Rede de Apoio aos Psicologos')
 
 # Register your models here.
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        exclude = ['owner']
+
 class EventAdmin(admin.ModelAdmin):
     list_display = (
         '__str__',
@@ -24,7 +35,13 @@ class EventAdmin(admin.ModelAdmin):
     list_filter = (
         'kind',
     )
-     
+
+    form = EventForm
+    
+    def save_model(self, request, obj, form, change):
+        obj.owner = request.user
+        super().save_model(request, obj, form, change)
+
     def get_queryset(self, request):
         qs = super(EventAdmin, self).get_queryset(request)
         self.request = request
@@ -49,22 +66,24 @@ class EventAdmin(admin.ModelAdmin):
     def get_participants(self, obj):
         return "{}/{}".format(Attendance.objects.filter(event=obj.pk).count(),obj.max_participants)
 
-    get_participants.short_description = "Participantes"
+    get_participants.short_description = _("Participants")
 
     def events_actions(self, obj):
         if not Attendance.objects.filter(event=obj.pk, attendee=self.request.user.id):
             return format_html(
-                '<a class="button" href="{}?next={}">Join</a>&nbsp;',
+                '<a class="button" href="{}?next={}">{}</a>&nbsp;',
                 reverse('admin:join-event', args=[obj.pk]),
-                self.request.path
+                self.request.path,
+                _('Join')
             )
         else:
-            return format_html('<a class="button" href="{}?next={}">Leave</a>',
+            return format_html('<a class="button" href="{}?next={}">{}</a>',
                 reverse('admin:leave-event', args=[obj.pk]),
-                self.request.path)
+                self.request.path,
+                _('Leave'))
             
                
-    events_actions.short_description = 'Actions'
+    events_actions.short_description = _('Actions')
     events_actions.allow_tags = True
 
     def join_event(self, request, event_id, *args, **kwargs):
@@ -72,8 +91,18 @@ class EventAdmin(admin.ModelAdmin):
         event = Event.objects.get(pk=event_id)
         if Attendance.objects.filter(event=event_id).count() < event.max_participants and not Attendance.objects.filter(event=event_id, attendee=request.user.id):
             a = Attendance(event=Event.objects.get(pk=event_id), attendee=User.objects.get(pk=request.user.id), is_attending=True)
+            name = a.__str__()
             a.save()
-            messages.success(request, 'Você foi inscrito no evento com sucesso!')
+            
+            send_mail(
+                '[Rede de Apoio] Você se inscreveu em '+name,
+                TEMPLATE_MESSAGE.format(request.user.first_name, name),
+                DEFAULT_SEND_MAIL,
+                [request.user.email],
+                fail_silently=False,
+            )
+            
+            messages.success(request, 'You have joined '+name)
             return redirect(next)
         else:
             return redirect(next)
@@ -82,8 +111,9 @@ class EventAdmin(admin.ModelAdmin):
         next = request.GET.get('next', '/default/url/')
         a = Attendance.objects.filter(event=event_id, attendee=request.user.id)
         if a:
+            name = a[0].__str__()
             a.delete()
-            messages.success(request, 'Você não esta mais participando do evento.')
+            messages.success(request, _('You have left '+name))
             return redirect(next)
         else:
             return redirect(next)
@@ -91,5 +121,6 @@ class EventAdmin(admin.ModelAdmin):
 myadmin = MyAdminSite(name="myadmin")
 
 myadmin.register(Event, EventAdmin)
-admin.site.register(Attendance)
-admin.site.register(Kind)
+myadmin.register(Attendance)
+myadmin.register(Kind)
+myadmin.register(User)

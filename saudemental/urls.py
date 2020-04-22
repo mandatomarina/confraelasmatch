@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
+from django.views.generic import RedirectView
 from .views import home, page
 from apoio.admin import myadmin
 
 urlpatterns = [
+    url(r'^$', RedirectView.as_view(url='/accounts/login/?next=/admin/apoio/event', permanent=False)),
     path('page/<slug:page_name>', page),
-    #path('admin/', admin.site.urls),
     path('admin/', myadmin.urls),
     path('accounts/', include('allauth.urls')),
 ]
