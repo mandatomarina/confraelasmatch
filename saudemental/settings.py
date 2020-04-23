@@ -25,7 +25,7 @@ SECRET_KEY = 'gdu40a57237**6gqf%g-i^h4p%g-i=9y46d3*xt+(emyf$*&b0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['apoio.marinahelou.com.br']
 
 
 # Application definition
