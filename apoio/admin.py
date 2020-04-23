@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse, path
 from .models import Event, Attendance, Kind
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -124,3 +124,4 @@ myadmin.register(Event, EventAdmin)
 myadmin.register(Attendance)
 myadmin.register(Kind)
 myadmin.register(User)
+myadmin.register(Group)
