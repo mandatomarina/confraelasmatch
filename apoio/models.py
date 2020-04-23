@@ -16,6 +16,12 @@ DAY_CHOICES = (
 
 # Create your models here.
 
+
+def get_full_name(self):
+    return "{} {}".format(self.first_name,self.last_name)
+
+User.add_to_class("__str__", get_full_name)
+
 class Kind(models.Model):
     name = models.CharField(max_length=200)
 
