@@ -161,5 +161,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #remover em pro
 EMAIL_HOST = 'email-ssl.com.br'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'pedro@marinahelou.com.br'
-EMAIL_HOST_PASSWORD = 'M4ndatomarina!'
+EMAIL_HOST_USER = 'email@dominio.com'
+EMAIL_HOST_PASSWORD = 'senhasecreta'
