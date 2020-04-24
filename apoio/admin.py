@@ -41,7 +41,7 @@ class EventAdmin(admin.ModelAdmin):
         'start',
         'owner',
         'get_participants',
-        'events_actions' 
+        'events_actions'
     )
 
     list_filter = (
@@ -79,13 +79,13 @@ class EventAdmin(admin.ModelAdmin):
         return "{}/{}".format(Attendance.objects.filter(event=obj.pk).count(),obj.max_participants)
 
     get_participants.short_description = _("Participants")
-
+    
     def events_actions(self, obj):
         if not Attendance.objects.filter(event=obj.pk, attendee=self.request.user.id):
             return format_html(
                 '<a class="button" href="{}?next={}">{}</a>&nbsp;',
                 reverse('admin:join-event', args=[obj.pk]),
-                self.request.path,
+                reverse('admin:%s_%s_change' % (obj._meta.app_label,  obj._meta.model_name),  args=[obj.id] ),
                 _('Join')
             )
         else:
