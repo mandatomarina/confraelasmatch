@@ -52,6 +52,16 @@ class EventAdmin(admin.ModelAdmin):
 
     form = EventForm
     
+    change_form_template = 'apoio/change_event_form.html'
+
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['atendee'] = self.get_participants_list(object_id)
+        return super(EventAdmin, self).change_view(
+            request, object_id, form_url, extra_context=extra_context,
+        )
+
     def save_model(self, request, obj, form, change):
         obj.owner = request.user
         super().save_model(request, obj, form, change)
@@ -79,6 +89,9 @@ class EventAdmin(admin.ModelAdmin):
     
     def get_participants(self, obj):
         return "{}/{}".format(Attendance.objects.filter(event=obj.pk).count(),obj.max_participants)
+
+    def get_participants_list(self, object_id):
+        return Attendance.objects.filter(event=object_id)
 
     get_participants.short_description = _("Participants")
     
