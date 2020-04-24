@@ -48,6 +48,8 @@ class EventAdmin(admin.ModelAdmin):
         'kind',
     )
 
+    list_display_links = None
+
     form = EventForm
     
     def save_model(self, request, obj, form, change):
@@ -81,20 +83,26 @@ class EventAdmin(admin.ModelAdmin):
     get_participants.short_description = _("Participants")
     
     def events_actions(self, obj):
-        if not Attendance.objects.filter(event=obj.pk, attendee=self.request.user.id):
-            return format_html(
+        btn = None
+        if Event.objects.get(pk=obj.pk).owner == self.request.user:
+            btn = format_html('  <a class="button" href="{}">{}</a>',
+            reverse('admin:%s_%s_change' % (obj._meta.app_label,  obj._meta.model_name),  args=[obj.id] ),
+                _('Edit'))
+        elif Attendance.objects.filter(event=obj.pk, attendee=self.request.user.id):
+             btn = format_html('<a class="button" href="{}?next={}">{}</a>',
+                reverse('admin:leave-event', args=[obj.pk]),
+                self.request.path,
+                _('Leave'))
+        elif Attendance.objects.filter(event=obj.pk).count() >= Event.objects.get(pk=obj.pk).max_participants:
+            btn = format_html('<a class="button" href="#">Evento cheio</a>')
+        else:
+            btn = format_html(
                 '<a class="button" href="{}?next={}">{}</a>&nbsp;',
                 reverse('admin:join-event', args=[obj.pk]),
                 reverse('admin:%s_%s_change' % (obj._meta.app_label,  obj._meta.model_name),  args=[obj.id] ),
                 _('Join')
             )
-        else:
-            return format_html('<a class="button" href="{}?next={}">{}</a>',
-                reverse('admin:leave-event', args=[obj.pk]),
-                self.request.path,
-                _('Leave'))
-            
-               
+        return btn
     events_actions.short_description = _('Actions')
     events_actions.allow_tags = True
 
