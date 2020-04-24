@@ -9,6 +9,8 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from django import forms
+from django.conf.urls import url
+from .views import KindList
 
 
 DEFAULT_SEND_MAIL = "pedro@markun.com.br"
@@ -16,6 +18,14 @@ TEMPLATE_MESSAGE = """Olá {}, você esta inscrito em {}."""
 
 class MyAdminSite(admin.AdminSite):
     site_header = _('Rede de Apoio aos Psicologos')
+
+    def get_urls(self):
+        urls = super(MyAdminSite, self).get_urls()
+        custom_urls = [
+            url(r'apoio/list/', self.admin_view(KindList), name="apoio_kind_list"),
+        ]
+        return urls + custom_urls
+
 
 # Register your models here.
 
@@ -26,7 +36,9 @@ class EventForm(forms.ModelForm):
 
 class EventAdmin(admin.ModelAdmin):
     list_display = (
-        '__str__',
+        'kind',
+        'weekday',
+        'start',
         'owner',
         'get_participants',
         'events_actions' 

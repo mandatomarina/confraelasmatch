@@ -24,6 +24,7 @@ User.add_to_class("__str__", get_full_name)
 
 class Kind(models.Model):
     name = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -40,6 +41,8 @@ class Event(models.Model):
     max_participants = models.IntegerField(verbose_name=_('Max Participants'))
     kind = models.ForeignKey(Kind, null=True, blank=True, on_delete=models.SET_NULL, verbose_name=_('Kind'))
     url = models.URLField(verbose_name=_('Meeting Link'), blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
 
     def __str__(self):
         return "{}:{} - {} das {} - {}".format(self.kind, self.owner.first_name, DAY_CHOICES[self.weekday-1][1], self.start, self.end)
