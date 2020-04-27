@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gdu40a57237**6gqf%g-i^h4p%g-i=9y46d3*xt+(emyf$*&b0'
+DEBUG = config('DEBUG', cast=bool, default=True)
+SECRET_KEY = config('SECRET_KEY', default='secret_key')
+SITE_ID = config('SITE_ID', default='1')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['apoio.marinahelou.com.br']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS',
+                       cast=Csv(lambda x: x.strip().strip(',').strip()),
+                       default='*')
 
 
 # Application definition
@@ -82,8 +84,14 @@ WSGI_APPLICATION = 'saudemental.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.' + config('DATABASE_ENGINE',
+                                                 default='sqlite3'),
+        'NAME': config('DATABASE_NAME',
+                       default=os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': config('DATABASE_USER', default=''),
+        'PASSWORD': config('DATABASE_PASSWORD', default=''),
+        'HOST': config('DATABASE_HOST', default=''),
+        'PORT': config('DATABASE_PORT', default=''),
     }
 }
 
@@ -156,10 +164,16 @@ ACCOUNT_USERNAME_REQUIRED = False
 
 # Email
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #remover em produção
-EMAIL_HOST = 'email-ssl.com.br'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'email@dominio.com'
-EMAIL_HOST_PASSWORD = 'senhasecreta'
+EMAIL_METHOD = config('EMAIL_METHOD', default='LOCAL')
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', cast=int, default=465)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='')
+EMAIL_BACKEND = config(
+    'EMAIL_BACKEND',
+    default='django.core.mail.backends.console.EmailBackend'
+)
+
+EMAIL_TEMPLATE_MESSAGE = config('EMAIL_TEMPLATE_MESSAGE', default='')

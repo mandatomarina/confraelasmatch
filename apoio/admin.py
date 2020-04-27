@@ -7,14 +7,12 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
-from django.core.mail import send_mail
 from django import forms
 from django.conf.urls import url
 from .views import KindList
+from .utils import send_mail
+from django.conf import settings
 
-
-DEFAULT_SEND_MAIL = "pedro@markun.com.br"
-TEMPLATE_MESSAGE = """Olá {}, você esta inscrito em {}."""
 
 class MyAdminSite(admin.AdminSite):
     site_header = _('Rede de Apoio aos Psicologos')
@@ -123,14 +121,14 @@ class EventAdmin(admin.ModelAdmin):
         next = request.GET.get('next', '/default/url/')
         event = Event.objects.get(pk=event_id)
         if Attendance.objects.filter(event=event_id).count() < event.max_participants and not Attendance.objects.filter(event=event_id, attendee=request.user.id):
-            a = Attendance(event=Event.objects.get(pk=event_id), attendee=User.objects.get(pk=request.user.id), is_attending=True)
+            a = Attendance(event=event, attendee=request.user, is_attending=True)
             name = a.__str__()
             a.save()
             
             send_mail(
-                '[Rede de Apoio] Você se inscreveu em '+name,
-                TEMPLATE_MESSAGE.format(request.user.first_name, name),
-                DEFAULT_SEND_MAIL,
+                '[Rede de Apoio] Você se inscreveu em '+event.kind.name,
+                settings.EMAIL_TEMPLATE_MESSAGE.format(name=request.user.first_name,kind=event.kind.name,weekday=event.day(),start=event.start,url=event.url),
+                settings.EMAIL_HOST_USER,
                 [request.user.email],
                 fail_silently=False,
             )

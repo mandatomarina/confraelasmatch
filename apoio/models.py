@@ -47,6 +47,8 @@ class Event(models.Model):
     def __str__(self):
         return "{}:{} - {} das {} - {}".format(self.kind, self.owner.first_name, DAY_CHOICES[self.weekday-1][1], self.start, self.end)
 
+    def day(self):
+        return DAY_CHOICES[self.weekday-1][1]
 
 class Attendance(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='attedants')
