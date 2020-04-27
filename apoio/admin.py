@@ -30,7 +30,7 @@ class MyAdminSite(admin.AdminSite):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        exclude = ['owner']
+        exclude = []
 
 class EventAdmin(admin.ModelAdmin):
     list_display = (
@@ -68,6 +68,13 @@ class EventAdmin(admin.ModelAdmin):
         qs = super(EventAdmin, self).get_queryset(request)
         self.request = request
         return qs
+
+    def get_form(self, request, obj=None, **kwargs):
+        self.exclude = []
+        if not request.user.is_superuser:
+            self.exclude.append('owner')
+
+        return super(EventAdmin, self).get_form(request, obj, **kwargs)
     
     def get_urls(self):
         urls = super().get_urls()
