@@ -60,9 +60,10 @@ class EventAdmin(admin.ModelAdmin):
             request, object_id, form_url, extra_context=extra_context,
         )
 
-    #def save_model(self, request, obj, form, change):
-    #    obj.owner = request.user
-    #    super().save_model(request, obj, form, change)
+    def save_model(self, request, obj, form, change):
+        if obj.pk is None:
+            obj.owner = request.user
+        super().save_model(request, obj, form, change)
 
     def get_queryset(self, request):
         qs = super(EventAdmin, self).get_queryset(request)
