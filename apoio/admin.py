@@ -3,6 +3,7 @@ from django.utils.html import format_html
 from django.urls import reverse, path
 from .models import Event, Attendance, Kind
 from django.contrib.auth.models import User, Group
+from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -164,3 +165,4 @@ myadmin.register(Attendance)
 myadmin.register(Kind)
 myadmin.register(User)
 myadmin.register(Group)
+myadmin.register(Site)
