@@ -11,12 +11,6 @@ from email.mime.text import MIMEText
 
 
 class SimpleMailBackend(BaseEmailBackend):
-    def __init__(self, host=None, port=None, username=None, password=None,
-                use_tls=None, fail_silently=False, use_ssl=None, timeout=None,
-                ssl_keyfile=None, ssl_certfile=None,
-                **kwargs):
-        super().__init__(fail_silently=fail_silently)
-
     def send_messages(self, email_messages):
         """
         Send one or more EmailMessage objects and return the number of email
@@ -39,12 +33,12 @@ class SimpleMailBackend(BaseEmailBackend):
         msg['From'] = sender_email
         msg['To'] = receiver_email
         msg['Subject'] = email_message.subject
-        msg.attach(email_message.body)
-    
+        msg.attach(MIMEText(email_message.body, 'plain'))
         if settings.EMAIL_METHOD == 'SMTP':
             context = ssl.create_default_context()
             with smtplib.SMTP_SSL(settings.EMAIL_HOST, settings.EMAIL_PORT, context=context) as server:
+                #server.set_debuglevel(1)
                 server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-                server.sendmail(sender_email, receiver_email, email_message.message())
+                server.sendmail(sender_email, receiver_email, msg.as_string())
         elif settings.EMAIL_METHOD == 'LOCAL':
-            print(email_message.message())
+            print(msg.as_string())
