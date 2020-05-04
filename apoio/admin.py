@@ -91,6 +91,11 @@ class EventAdmin(admin.ModelAdmin):
                 self.admin_site.admin_view(self.leave_event),
                 name='leave-event',
             ),
+            path(
+                '<event_id>/remove_all/',
+                self.admin_site.admin_view(self.remove_all),
+                name='remove-all',
+            ),
         ]
         return custom_urls + urls
     
@@ -108,6 +113,10 @@ class EventAdmin(admin.ModelAdmin):
             btn = format_html('  <a class="button" href="{}">{}</a>',
             reverse('admin:%s_%s_change' % (obj._meta.app_label,  obj._meta.model_name),  args=[obj.id] ),
                 _('Edit'))
+            btn += format_html('  <a class="button" href="{}?next={}">{}</a>',
+            reverse('admin:remove-all', args=[obj.id]),
+                self.request.path,
+                _('Remover participantes'))
         elif Attendance.objects.filter(event=obj.pk, attendee=self.request.user.id):
             btn = format_html('<a class="button" href="{}?next={}">{}</a>',
                 reverse('admin:leave-event', args=[obj.pk]),
@@ -131,7 +140,7 @@ class EventAdmin(admin.ModelAdmin):
     events_actions.allow_tags = True
 
     def join_event(self, request, event_id, *args, **kwargs):
-        next = request.GET.get('next', '/default/url/')
+        n = request.GET.get('next', '/default/url/')
         event = Event.objects.get(pk=event_id)
         if Attendance.objects.filter(event=event_id).count() < event.max_participants and not Attendance.objects.filter(event=event_id, attendee=request.user.id):
             a = Attendance(event=event, attendee=request.user, is_attending=True)
@@ -147,20 +156,29 @@ class EventAdmin(admin.ModelAdmin):
             )
             
             messages.success(request, 'You have joined '+name)
-            return redirect(next)
+            return redirect(n)
         else:
-            return redirect(next)
+            return redirect(n)
         
     def leave_event(self, request, event_id, *args, **kwargs):
-        next = request.GET.get('next', '/default/url/')
+        n = request.GET.get('next', '/default/url/')
         a = Attendance.objects.filter(event=event_id, attendee=request.user.id)
         if a:
             name = a[0].__str__()
             a.delete()
             messages.success(request, _('You have left '+name))
-            return redirect(next)
+            return redirect(n)
         else:
-            return redirect(next)
+            return redirect(n)
+    
+    def remove_all(self, request, event_id, *args, **kwargs):
+        n = request.GET.get('next', '/default/url/')
+        a = Attendance.objects.filter(event=event_id)
+        count = a.count()
+        a.delete()
+        messages.success(request, _('Você removeu '+ str(count)+' participantes.'))
+        return redirect(n)
+
 
 myadmin = MyAdminSite(name="myadmin")
 
