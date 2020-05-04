@@ -54,6 +54,12 @@ class EventAdmin(admin.ModelAdmin):
     change_form_template = 'apoio/change_event_form.html'
 
 
+    def has_change_permission(self, request, obj=None):
+        if obj and request.user == obj.owner:
+            return True
+        else:
+            return super(EventAdmin, self).has_change_permission(request, obj)
+    
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
         extra_context['atendee'] = self.get_participants_list(object_id)
