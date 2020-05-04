@@ -40,12 +40,17 @@
 {% block content %}
 
 <div id="content-main">
+    <h2>Olá, {{request.user.first_name}}!</h2><br />
+    <p>A Rede de Apoio Psicológico oferece aos psicólogos e psicólogas voluntários uma rede de dispositivos de apoio composta de modalidades variadas de apoio - grupos de elaboração da experiência, reuniões clínicas e supervisões-, todos seguindo as normas de sigilo e gratuitos.
+    Para formá-la, contamos com a contribuição também voluntária de grupos, associações e profissionais de abordagens clínicas diversificadas e que oferecem enquadres de trabalho também diferentes.
+    Abaixo uma breve descrição de cada modalidade de apoio oferecida e a equipe ou o profissional responsável. Escolha a que mais te interessar e se inscreva no grupo correspondente.</p>
+    
     <ul>
     {% for k in kind %}
-        <li><b>{{k}}:</b> <p>{{k.description}}</p></li>
+        <li><b><a href="{% url 'admin:apoio_event_changelist' %}?kind__id__exact={{k.id}}">{{k}}</a>:</b> <p>{{k.description}}</p></li>
     {% endfor %}
-
     </ul>
 
+    <p>Qualquer dúvida entre em contato conosco através do email <a href="mailto:apoiopsi.sus@gmail.com">apoiopsi.sus@gmail.com</a></p>
 </div>
 {% endblock %}

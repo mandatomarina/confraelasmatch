@@ -21,7 +21,7 @@ from .views import home, page
 from apoio.admin import myadmin
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(url='/accounts/login/?next=/admin/apoio/event', permanent=False)),
+    url(r'^$', RedirectView.as_view(url='/accounts/login/?next=/admin/apoio/list', permanent=False)),
     path('page/<slug:page_name>', page),
     path('admin/', myadmin.urls),
     path('accounts/', include('allauth.urls')),
