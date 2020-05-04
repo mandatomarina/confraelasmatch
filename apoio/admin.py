@@ -109,10 +109,14 @@ class EventAdmin(admin.ModelAdmin):
             reverse('admin:%s_%s_change' % (obj._meta.app_label,  obj._meta.model_name),  args=[obj.id] ),
                 _('Edit'))
         elif Attendance.objects.filter(event=obj.pk, attendee=self.request.user.id):
-             btn = format_html('<a class="button" href="{}?next={}">{}</a>',
+            btn = format_html('<a class="button" href="{}?next={}">{}</a>',
                 reverse('admin:leave-event', args=[obj.pk]),
                 self.request.path,
                 _('Leave'))
+            if (obj.url):
+                btn += format_html(' <a class="button" href="{}" target="_blank">{}</a>',
+                    obj.url,
+                    _('Link'))
         elif Attendance.objects.filter(event=obj.pk).count() >= Event.objects.get(pk=obj.pk).max_participants:
             btn = format_html('<a class="button" href="#">Evento cheio</a>')
         else:
