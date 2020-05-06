@@ -43,6 +43,8 @@ class EventAdmin(admin.ModelAdmin):
         'events_actions'
     )
 
+    ordering = ('kind','weekday','start')
+
     list_filter = (
         'kind',
     )
