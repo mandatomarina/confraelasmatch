@@ -6,7 +6,10 @@
 {{ media }}
 {% endblock %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">{% endblock %}
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+{% endblock %}
 
 {% block coltype %}colM{% endblock %}
 
@@ -64,7 +67,7 @@
   <h2>Participantes inscritos:</h2>
   <ul>
   {% for a in atendee %}
-    <li><b>Nome:</b> {{a.attendee}}<br />
+    <li><b>Nome:</b> {{a.attendee}} (<a href="{% url 'admin:apoio_attendance_delete' a.pk %}">remover</a>)<br />
         <b>Email:</b> {{a.attendee.email}}<br />
         <b>Cel:</b> {{a.attendee.cel}}</b></li>
     {% endfor %}
