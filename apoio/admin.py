@@ -167,7 +167,7 @@ class EventAdmin(admin.ModelAdmin):
                 '[Rede de Apoio] '+request.user.first_name+ ' se inscreveu em '+event.kind.name,
                 msg_template('confirmacao_coord.txt').format(name=request.user.first_name,kind=event.kind.name,weekday=event.day(),start=event.start,url=event.url),
                 settings.EMAIL_HOST_USER,
-                [request.user.email],
+                [event.owner.email],
                 fail_silently=False,
             )
 
