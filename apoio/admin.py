@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.conf.urls import url
 from .views import KindList
-from .utils import send_mail
+from .utils import send_mail, msg_template
 from django.conf import settings
 
 
@@ -157,12 +157,20 @@ class EventAdmin(admin.ModelAdmin):
             
             send_mail(
                 '[Rede de Apoio] Você se inscreveu em '+event.kind.name,
-                settings.EMAIL_TEMPLATE_MESSAGE.format(name=request.user.first_name,kind=event.kind.name,weekday=event.day(),start=event.start,url=event.url),
+                msg_template('confirmacao_psi.txt').format(name=request.user.first_name,kind=event.kind.name,weekday=event.day(),start=event.start,url=event.url),
                 settings.EMAIL_HOST_USER,
                 [request.user.email],
                 fail_silently=False,
             )
             
+            send_mail(
+                '[Rede de Apoio] '+request.user.first_name+ ' se inscreveu em '+event.kind.name,
+                msg_template('confirmacao_coord.txt').format(name=request.user.first_name,kind=event.kind.name,weekday=event.day(),start=event.start,url=event.url),
+                settings.EMAIL_HOST_USER,
+                [request.user.email],
+                fail_silently=False,
+            )
+
             messages.success(request, 'You have joined '+name)
             return redirect(n)
         else:

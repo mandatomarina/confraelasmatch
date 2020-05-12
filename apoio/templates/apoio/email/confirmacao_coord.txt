@@ -1,0 +1,1 @@
+Olá coordenador, o {name}, acaba de se inscrever em seu evento de {kind} que acontece toda {weekday} as {start}.
