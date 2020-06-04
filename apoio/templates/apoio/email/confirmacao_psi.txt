@@ -1,3 +1,5 @@
 Olá {name}, você esta inscrito em {kind} que acontece toda {weekday} as {start}.
 
 Esse é o link da conferência: {url}
+
+Atenção: Caso não possa comparecer à atividade para a qual se inscreveu, por favor lembre-se de se desinscrever ou de avisar o supervisor por meio do email informado em cada atividade.
