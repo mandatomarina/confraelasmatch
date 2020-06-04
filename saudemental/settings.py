@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
+    'django_crontab',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -178,3 +179,10 @@ EMAIL_BACKEND = config(
 )
 
 EMAIL_TEMPLATE_MESSAGE = config('EMAIL_TEMPLATE_MESSAGE', default='')
+
+
+# Crontab
+
+CRONJOBS = [
+    ('6 * * * *', 'apoio.cron.dailyreminder_job')
+]
