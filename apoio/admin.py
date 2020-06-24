@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.conf.urls import url
-from .views import KindList
+from .views import KindList, Profile
 from .utils import send_mail, msg_template
 from django.conf import settings
 
@@ -22,6 +22,7 @@ class MyAdminSite(admin.AdminSite):
         urls = super(MyAdminSite, self).get_urls()
         custom_urls = [
             url(r'apoio/list/', self.admin_view(KindList), name="apoio_kind_list"),
+            url(r'profile/', self.admin_view(Profile), name="profile")
         ]
         return urls + custom_urls
 
