@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-25 14:59-0300\n"
+"POT-Creation-Date: 2020-06-25 15:24-0300\n"
 "PO-Revision-Date: 2020-04-21 07:53-0300\n"
 "Last-Translator: Pedro Markun <pedro@markun.com.br>\n"
 "Language-Team: \n"
@@ -57,41 +57,61 @@ msgstr "Você saiu de "
 msgid "Você removeu "
 msgstr ""
 
-#: apoio/models.py:48
-msgid "Event"
-msgstr "Reunião"
+#: apoio/models.py:28
+msgid "Profile"
+msgstr "Perfil"
 
-#: apoio/models.py:49
-msgid "Events"
-msgstr "Reuniões"
+#: apoio/models.py:29
+msgid "Profiles"
+msgstr "Perfis"
 
-#: apoio/models.py:51
-msgid "Weekday"
-msgstr "Dia da semana"
-
-#: apoio/models.py:52
-msgid "Start"
-msgstr "Inicio"
-
-#: apoio/models.py:53
-msgid "End"
-msgstr "Fim"
-
-#: apoio/models.py:54
-msgid "Owner"
-msgstr "Coordenador(a)"
-
-#: apoio/models.py:55
-msgid "Max Participants"
-msgstr "Máximo de Participantes"
-
-#: apoio/models.py:56
+#: apoio/models.py:45 apoio/models.py:64
 msgid "Kind"
 msgstr "Tipo"
 
+#: apoio/models.py:46
+msgid "Kinds"
+msgstr "Tipos"
+
+#: apoio/models.py:56
+msgid "Event"
+msgstr "Reunião"
+
 #: apoio/models.py:57
+msgid "Events"
+msgstr "Reuniões"
+
+#: apoio/models.py:59
+msgid "Weekday"
+msgstr "Dia da semana"
+
+#: apoio/models.py:60
+msgid "Start"
+msgstr "Inicio"
+
+#: apoio/models.py:61
+msgid "End"
+msgstr "Fim"
+
+#: apoio/models.py:62
+msgid "Owner"
+msgstr "Coordenador(a)"
+
+#: apoio/models.py:63
+msgid "Max Participants"
+msgstr "Máximo de Participantes"
+
+#: apoio/models.py:65
 msgid "Meeting Link"
 msgstr "Link da reunião"
+
+#: apoio/models.py:77
+msgid "Attendance"
+msgstr "Inscrição"
+
+#: apoio/models.py:78
+msgid "Attendances"
+msgstr "Inscrições"
 
 #: apoio/templates/account/account_inactive.html:5
 #: apoio/templates/account/account_inactive.html:8

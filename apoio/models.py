@@ -24,6 +24,10 @@ def get_full_name(self):
 User.add_to_class("__str__", get_full_name)
 
 class Profile(models.Model):
+    class Meta:
+        verbose_name = _('Profile')
+        verbose_name_plural = _('Profiles')
+        
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avaliable = models.BooleanField(default=False)
 
@@ -37,6 +41,10 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 class Kind(models.Model):
+    class Meta:
+        verbose_name = _('Kind')
+        verbose_name_plural = _('Kinds')
+
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
 
@@ -65,6 +73,10 @@ class Event(models.Model):
         return DAY_CHOICES[self.weekday-1][1]
 
 class Attendance(models.Model):
+    class Meta:
+        verbose_name = _('Attendance')
+        verbose_name_plural = _('Attendances')
+
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='attedants')
     attendee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='attending')
     is_attending = models.BooleanField(default=False)
