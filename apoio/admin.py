@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse, path
-from .models import Event, Attendance, Kind
+from .models import Event, Attendance, Kind, Profile
 from django.contrib.auth.models import User, Group
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.conf.urls import url
-from .views import KindList, Profile
+from .views import KindList, ProfileView
 from .utils import send_mail, msg_template
 from django.conf import settings
 
@@ -22,7 +22,7 @@ class MyAdminSite(admin.AdminSite):
         urls = super(MyAdminSite, self).get_urls()
         custom_urls = [
             url(r'apoio/list/', self.admin_view(KindList), name="apoio_kind_list"),
-            url(r'profile/', self.admin_view(Profile), name="profile")
+            url(r'profile/', self.admin_view(ProfileView), name="profile")
         ]
         return urls + custom_urls
 
@@ -125,7 +125,7 @@ class EventAdmin(admin.ModelAdmin):
             btn += format_html('  <a class="button" href="{}?next={}">{}</a>',
             reverse('admin:remove-all', args=[obj.id]),
                 self.request.path,
-                _('Remover participantes'))
+                _('Clear participants'))
         elif Attendance.objects.filter(event=obj.pk, attendee=self.request.user.id):
             btn = format_html('<a class="button" href="{}?next={}">{}</a>',
                 reverse('admin:leave-event', args=[obj.pk]),
@@ -205,3 +205,4 @@ myadmin.register(Kind)
 myadmin.register(User)
 myadmin.register(Group)
 myadmin.register(Site)
+myadmin.register(Profile)

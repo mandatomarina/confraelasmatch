@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User, Group
+from .models import Profile
 
 class ApoioSignupForm(forms.Form):
     class Meta:
@@ -17,3 +18,11 @@ class ApoioSignupForm(forms.Form):
         g1 = Group.objects.get(name='Usuário')
         user.groups.add(g1)
         user.save()
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('avaliable',)
+        labels = {
+            'avaliable': 'Disponível para novos atendimentos',
+        }

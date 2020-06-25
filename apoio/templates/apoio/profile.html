@@ -1,15 +1,29 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls static admin_list %}
 
+
+
 {% block content %}
 
 <h2>Olá {{ user }}</h2>
+<br /><br />
+<div>
+    <form method="post">
+        {% csrf_token %}
+        {{ profile_form.as_p }}
+        <button type="submit">Salvar</button>
+    </form>
+    <br /><br /><br /><br />
+</div>
 
-<b>Seus eventos inscritos:</b>
-<ul>
-{% for e in events %}
-    <li>{{e}}</li>
-{% endfor %}
-</ul>
+<hr />
+<div>
+    <b>Seus eventos inscritos:</b>
+    <ul>
+    {% for e in events %}
+        <li>{{e}}</li>
+    {% endfor %}
+    </ul>
+</div>
 
 {% endblock %}

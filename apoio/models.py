@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 DAY_CHOICES = (
@@ -21,6 +22,19 @@ def get_full_name(self):
     return "{} {}".format(self.first_name,self.last_name)
 
 User.add_to_class("__str__", get_full_name)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avaliable = models.BooleanField(default=False)
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 class Kind(models.Model):
     name = models.CharField(max_length=200)

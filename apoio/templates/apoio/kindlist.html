@@ -53,6 +53,19 @@
     {% endfor %}
     </ul>
 
+    <div>
+      <p><b>Atenção:</b> Caso você já tenha realizado seus atendimentos e esteja disponível para novos 'matches' marque a opção abaixo e clique em Salvar.</p>
+      <form method="post">
+          {% csrf_token %}
+          {{ profile_form.as_p }}
+          <button type="submit">Salvar</button>
+      </form>
+      <br /><br /><br /><br />
+    </div>
+
     <p>Qualquer dúvida entre em contato conosco através do email <a href="mailto:apoiopsi.sus@gmail.com">apoiopsi.sus@gmail.com</a></p>
-</div>
+
+
+
+  </div>
 {% endblock %}
