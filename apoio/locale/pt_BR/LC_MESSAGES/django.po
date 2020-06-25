@@ -71,7 +71,7 @@ msgstr "Tipo"
 
 #: apoio/models.py:46
 msgid "Kinds"
-msgstr "Tipos"
+msgstr "Tipo"
 
 #: apoio/models.py:56
 msgid "Event"

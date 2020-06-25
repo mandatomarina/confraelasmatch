@@ -13,6 +13,10 @@ from django.conf.urls import url
 from .views import KindList, ProfileView
 from .utils import send_mail, msg_template
 from django.conf import settings
+from import_export import resources
+from import_export.admin import ExportMixin
+from django.contrib.auth.admin import UserAdmin
+
 
 
 class MyAdminSite(admin.AdminSite):
@@ -28,6 +32,18 @@ class MyAdminSite(admin.AdminSite):
 
 
 # Register your models here.
+
+class UserResource(resources.ModelResource):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
+class UserAdmin(ExportMixin, UserAdmin):
+    resource_class = UserResource
+    pass
+
+
+
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -202,7 +218,7 @@ myadmin = MyAdminSite(name="myadmin")
 myadmin.register(Event, EventAdmin)
 myadmin.register(Attendance)
 myadmin.register(Kind)
-myadmin.register(User)
+myadmin.register(User, UserAdmin)
 myadmin.register(Group)
 myadmin.register(Site)
 myadmin.register(Profile)
