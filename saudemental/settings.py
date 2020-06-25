@@ -185,5 +185,5 @@ EMAIL_TEMPLATE_MESSAGE = config('EMAIL_TEMPLATE_MESSAGE', default='')
 # Crontab
 
 CRONJOBS = [
-    ('6 * * * *', 'apoio.cron.dailyreminder_job')
+    ('0 6 * * *', 'apoio.cron.dailyreminder_job')
 ]
