@@ -40,6 +40,11 @@ class UserResource(resources.ModelResource):
 
 class UserAdmin(ExportMixin, UserAdmin):
     resource_class = UserResource
+    list_display = ('first_name', 'last_name', 'email', 'profile_avaliable',)
+    list_filter = ('groups','profile__avaliable',)
+    def profile_avaliable(self, x):
+        return x.profile.avaliable
+    profile_avaliable.short_description = 'disponível'
     pass
 
 

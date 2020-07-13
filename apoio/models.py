@@ -20,7 +20,7 @@ DAY_CHOICES = (
 
 def get_full_name(self):
     return "{} {}".format(self.first_name,self.last_name)
-
+    
 User.add_to_class("__str__", get_full_name)
 
 class Profile(models.Model):
@@ -30,6 +30,9 @@ class Profile(models.Model):
         
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avaliable = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "{} {}".format(self.user.first_name,self.user.last_name)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
