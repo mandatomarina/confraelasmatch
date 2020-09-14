@@ -53,8 +53,9 @@
     {% endfor %}
     </ul>
 
-    <div>
+    <div style="border:1px solid black;">
       <p><b>Atenção:</b> Caso você já tenha realizado seus atendimentos e esteja disponível para novos 'matches' marque a opção abaixo e clique em Salvar.</p>
+      <p><i>Esta opção é válida apenas para psicólogos da Rede de Apoio aos Profissionais de Saúde.</i></p>
       <form method="post">
           {% csrf_token %}
           {{ profile_form.as_p }}
