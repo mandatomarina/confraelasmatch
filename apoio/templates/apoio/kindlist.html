@@ -41,9 +41,7 @@
 
 <div id="content-main">
     <h2>Olá, {{request.user.first_name}}!</h2><br />
-    <p>A Rede de Apoio Psicológico oferece aos psicólogos e psicólogas voluntários uma rede de dispositivos de apoio composta de modalidades variadas de apoio - grupos de elaboração da experiência, reuniões clínicas e supervisões-, todos seguindo as normas de sigilo e gratuitos.
-    Para formá-la, contamos com a contribuição também voluntária de grupos, associações e profissionais de abordagens clínicas diversificadas e que oferecem enquadres de trabalho também diferentes.
-    Abaixo uma breve descrição de cada modalidade de apoio oferecida e a equipe ou o profissional responsável. Escolha a que mais te interessar e se inscreva no grupo correspondente.</p>
+    <p>Essa é a plataforma da Confraelas para você encontrar e marcar os encontros nos Grupos de Aprendizados.</p>
     <p>Clique nos nomes de cada modalidade (em azul) para ver os horários disponíveis e vagas para inscrição.</p>
     <p>Obrigada por sua participação!</p>
     
@@ -53,18 +51,7 @@
     {% endfor %}
     </ul>
 
-    <div style="border:1px solid black;">
-      <p><b>Atenção:</b> Caso você já tenha realizado seus atendimentos e esteja disponível para novos 'matches' marque a opção abaixo e clique em Salvar.</p>
-      <p><i>Esta opção é válida apenas para psicólogos da Rede de Apoio aos Profissionais de Saúde.</i></p>
-      <form method="post">
-          {% csrf_token %}
-          {{ profile_form.as_p }}
-          <button type="submit">Salvar</button>
-      </form>
-      <br /><br /><br /><br />
-    </div>
-
-    <p>Qualquer dúvida entre em contato conosco através do email <a href="mailto:apoiopsi.sus@gmail.com">apoiopsi.sus@gmail.com</a></p>
+    <p>Qualquer dúvida entre em contato conosco através do email <a href="mailto:confraelas@marinahelou.com.br">confraelas@marinahelou.com.br</a></p>
 
 
 
