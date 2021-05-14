@@ -20,7 +20,7 @@ from django.contrib.auth.admin import UserAdmin
 
 
 class MyAdminSite(admin.AdminSite):
-    site_header = _('Rede de Apoio aos Psicologos')
+    site_header = _('Confraelas')
 
     def get_urls(self):
         urls = super(MyAdminSite, self).get_urls()
